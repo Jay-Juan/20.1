@@ -1,19 +1,21 @@
 {
-  "name": "crud-nodejs",
+  "name": "velas",
   "version": "1.0.0",
-  "description": "CRUD con NodeJS",
+  "description": "Para trabajar en este proyecto deberás realizar lo siguiente:\r 1- Abre la terminal y ejecuta el comando `npm install`, el cual instalará todas las dependencias del proyecto. Sin este paso no podrás trabajar.\r 2- A continuación ejecuta el comando `npm run dev`, el cual inicia el servidor en \"modo desarrollo\" utilizando nodemon.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "juan",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mariadb": "^3.2.2"
+    "mariadb": "^3.2.2",
+    "node.js": "^0.0.1-security"
+    
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

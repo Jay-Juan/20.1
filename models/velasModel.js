@@ -1,36 +1,35 @@
-// Trabajamos todo lo que tiene que ver con los datos de people en la base de datos
 const mariadb = require("mariadb");
 
 const pool = mariadb.createPool({
   host: "localhost",
   user: "root",
-  password: "1234",
-  database: "pruebadb",
+  password: "turtledexter",
+  database: "velas",
   connectionLimit: 5,
 });
 
-const getUsers = async () => {
+const getCandles = async () => {
   let conn;
   try {
     conn = await pool.getConnection();
     const rows = await conn.query(
-      "SELECT id, name, lastname, email FROM people"
+      "SELECT id, name, weight_g, price, sold FROM velas"
     );
 
     return rows;
   } catch (error) {
   } finally {
-    if (conn) conn.release(); //release to pool
+    if (conn) conn.release();
   }
   return false;
 };
 
-const getUserById = async (id) => {
+const getCandleById = async (id) => {
   let conn;
   try {
     conn = await pool.getConnection();
     const rows = await conn.query(
-      "SELECT id, name, lastname, email FROM people WHERE id=?",
+      "SELECT id, name, weight_g, price, sold FROM velas WHERE id=?",
       [id]
     );
 
@@ -38,66 +37,66 @@ const getUserById = async (id) => {
   } catch (error) {
     console.log(error);
   } finally {
-    if (conn) conn.release(); //release to pool
+    if (conn) conn.release();
   }
   return false;
 };
 
-const createUser = async (user) => {
+const createCandle = async (user) => {
   let conn;
   try {
     conn = await pool.getConnection();
     const response = await conn.query(
-      `INSERT INTO people(name, lastname, email) VALUE(?, ?, ?)`,
-      [user.name, user.lastname, user.email]
+      `INSERT INTO velas(name, weight_g, price, sold) VALUE(?, ?, ?, ?)`,
+      [user.name, user.weight_g, user.price, user.sold]
     );
 
     return { id: parseInt(response.insertId), ...user };
   } catch (error) {
-    console.log(error);
+    console.log(error); 
   } finally {
-    if (conn) conn.release(); //release to pool
+    if (conn) conn.release();
   }
   return false;
 };
 
-const updateUser = async (id, user) => {
+const updateCandle = async (id, user) => {
   let conn;
   try {
     conn = await pool.getConnection();
     await conn.query(
-      `UPDATE people SET name=?, lastname=?, email=? WHERE id=?`,
-      [user.name, user.lastname, user.email, id]
+      `UPDATE velas SET name=?, weight_g=?, price=?, sold=? WHERE id=?`,
+      [user.name, user.weight_g, user.price, user.sold, id]
     );
 
     return { id, ...user };
   } catch (error) {
     console.log(error);
   } finally {
-    if (conn) conn.release(); //release to pool
+    if (conn) conn.release();
   }
   return false;
 };
 
-const deleteUser = async (id) => {
+const deleteCandle = async (id) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    await conn.query("DELETE FROM people WHERE id=?", [id]);
+    await conn.query("DELETE FROM velas WHERE id=?", [id]);
 
     return true;
   } catch (error) {
     console.log(error);
   } finally {
-    if (conn) conn.release(); //release to pool
+    if (conn) conn.release();
   }
   return false;
 };
 
 module.exports = {
-  getUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser,
+  getCandles,
+  getCandleById,
+  createCandle,
+  updateCandle,
+  deleteCandle,
 };

@@ -1,9 +1,9 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "CLAVE ULTRA SECRETA";
+const SECRET_KEY = "CLAVE SUPER SECRETA";
 
-// Aquí importamos los routers
-const peopleRouter = require("./routes/peopleRoute");
+
+const velasRouter = require("./routes/velasRoute");
 
 
 const app = express();
@@ -16,10 +16,9 @@ app.get("/", (req, res) => {
 });
 
 
-// Auth
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
-  if (username === "admin" && password === "admin") {
+  if (username === "Velas" && password === "Gaia") {
     const token = jwt.sign({ username }, SECRET_KEY);
     res.status(200).json({ token });
   } else {
@@ -27,8 +26,8 @@ app.post("/login", (req, res) => {
   }
 });
 
-// Middleware que autoriza a realizar peticiones a /people
-app.use("/people", (req, res, next) => {
+
+app.use("/velas", (req, res, next) => {
   try {
     const decoded = jwt.verify(req.headers["access-token"], SECRET_KEY);
     console.log(decoded);
@@ -37,10 +36,9 @@ app.use("/people", (req, res, next) => {
     res.status(401).json({ message: "Usuario no autorizado" });
   }
 });
-//---
 
-// Asociamos el router de people con la ruta /people
-app.use("/people", peopleRouter);
+
+app.use("/velas", velasRouter);
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
