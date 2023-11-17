@@ -13,7 +13,7 @@ const getCandles = async () => {
   try {
     conn = await pool.getConnection();
     const rows = await conn.query(
-      "SELECT id, name, weight_g, price, sold FROM velas"
+      "SELECT id, nombre, precio, peso, lado, ancho, alto, diametro FROM velas"
     );
 
     return rows;
@@ -29,7 +29,7 @@ const getCandleById = async (id) => {
   try {
     conn = await pool.getConnection();
     const rows = await conn.query(
-      "SELECT id, name, weight_g, price, sold FROM velas WHERE id=?",
+      "SELECT id, nombre, precio, peso, lado, ancho, alto, diametro FROM velas WHERE id=?",
       [id]
     );
 
@@ -47,8 +47,8 @@ const createCandle = async (user) => {
   try {
     conn = await pool.getConnection();
     const response = await conn.query(
-      `INSERT INTO velas(name, weight_g, price, sold) VALUE(?, ?, ?, ?)`,
-      [user.name, user.weight_g, user.price, user.sold]
+      `INSERT INTO velas(nombre, precio, peso, lado, ancho, alto, diametro) VALUE(?, ?, ?, ?, ?, ?, ?)`,
+      [user.nombre, user.precio, user.peso, user.lado, user.ancho, user.alto, user.diametro]
     );
 
     return { id: parseInt(response.insertId), ...user };
@@ -65,8 +65,8 @@ const updateCandle = async (id, user) => {
   try {
     conn = await pool.getConnection();
     await conn.query(
-      `UPDATE velas SET name=?, weight_g=?, price=?, sold=? WHERE id=?`,
-      [user.name, user.weight_g, user.price, user.sold, id]
+      `UPDATE velas SET nombre=?, precio=?, peso=?, lado=?, ancho=?, alto=?, diametro=? WHERE id=?`,
+      [user.nombre, user.precio, user.peso, user.lado, user.ancho, user.alto, user.diametro, id]
     );
 
     return { id, ...user };
